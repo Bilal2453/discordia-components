@@ -115,16 +115,19 @@ local function checkAny(rows)
 end
 
 local function checkPredicate(rows, targetRow, predicate)
-  local success, msg, cell = true, nil, nil
+  local success, msg, cell
   for c = cellIndex(targetRow, 1), targetRow * MAX_ROW_CELLS do
     if rows[c] then
       success, msg = predicate(rows[c], c)
     elseif not cell then
       cell = c -- first empty cell
     end
-    if not success then
+    if success == false then
       return false, msg or "Predicate was not satisfied"
     end
+  end
+  if not cell then
+    return false, "Action Row not eligible" -- user should never see this error message
   end
   return true, cell
 end
@@ -158,7 +161,9 @@ function Components:_isEligible(actionRow, predicate)
     success, cell = checkPredicate(rows, targetRow, predicate)
     targetRow = success and targetRow or targetRow + 1
   until success or actionRow or targetRow > MAX_ROWS or targetRow - rows.m > 1
-  if not success then return false, cell end
+  if not success then
+    return false, actionRow and cell or "No eligible Action Row for the provided component"
+  end
 
   return true, cell
 end

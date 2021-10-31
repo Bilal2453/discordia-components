@@ -59,9 +59,7 @@ function Resolver.objComponents(data)
     if type(cell) ~= "table" then return end -- definitely an invalid component
     cell.type = type(cell.type) == "number" and cell.type or componentType[cell.type]
     if bases[cell.type] then
-      -- optimization for passing fully constructed components
-      cell = isInstance(cell, classes.Component) and cell or bases[cell.type](cell)
-      nd:_buildComponent(cell.__class, cell)
+      nd:_buildComponent(bases[cell.type], cell)
     end
   end
   return nd

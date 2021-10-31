@@ -46,4 +46,8 @@ function get.id(self)
   return self._data.id
 end
 
+function get.actionRow(self)
+  return self._actionRow
+end
+
 return Component
