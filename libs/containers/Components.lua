@@ -171,6 +171,7 @@ function Components:_buildComponent(comp, data, ...)
   -- Create and insert the component into the action row
   -- using isInstance as an optimization for passing an already constructed component
   local obj = isInstance(data, comp) and data or comp(data)
+  self:_insert(cell, obj)
   return obj
 end
 
