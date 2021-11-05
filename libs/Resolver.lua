@@ -24,10 +24,7 @@ function Resolver.buttonStyle(style)
 end
 
 function Resolver.buttonEmoji(emoji) -- Partial emoji object
-  if type(emoji) == "table"
-  and emoji.name
-  and emoji.id
-  and emoji.animated then
+  if type(emoji) == "table" and emoji.name then
     return {
       animated = emoji.animated,
       name = emoji.name,
