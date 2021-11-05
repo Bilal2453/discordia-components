@@ -47,6 +47,8 @@ function Button._eligibilityCheck(c)
 end
 
 function Button:_load(data)
+  -- TODO: Is there a shortcut to those repetitive checks?
+  -- make it as generalized as possible.
   -- Load style
   if data.style then
     self:style(data.style)
@@ -63,14 +65,12 @@ function Button:_load(data)
   if data.url then
     self:url(data.url)
   end
-end
-
-function Button:disable()
-  return self:set("disabled", true)
-end
-
-function Button:enable()
-  return self:set("disabled", false)
+  -- Load disabled
+  if data.disabled then
+    self:disable()
+  elseif data.disabled == false then
+    self:enable()
+  end
 end
 
 function Button:style(style)

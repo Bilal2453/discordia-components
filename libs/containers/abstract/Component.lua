@@ -12,12 +12,28 @@ function Component:__init(data, type)
 end
 
 function Component:set(property, value)
-  self._data[property] = value
+  if type(property) == "table" then
+    if self._load then
+      self:_load(property)
+    else
+      self._data = property
+    end
+  else
+    self._data[property] = value
+  end
   return self
 end
 
 function Component:get(property)
   return self._data[property]
+end
+
+function Component:disable()
+  return self:set("disabled", true)
+end
+
+function Component:enable()
+  return self:set("disabled", false)
 end
 
 local function lowercase(m)
@@ -44,6 +60,10 @@ end
 
 function get.id(self)
   return self._data.id
+end
+
+function get.disabled(self)
+  return self._data.disabled
 end
 
 function get.actionRow(self)

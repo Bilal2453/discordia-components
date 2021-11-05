@@ -32,6 +32,10 @@ function Message:replyComponents(...)
   return self._parent:sendComponents(...)
 end
 
+function Message:waitComponent(...)
+  return self.client:waitComponent(self, ...)
+end
+
 function get.components(self)
   return self._components
 end

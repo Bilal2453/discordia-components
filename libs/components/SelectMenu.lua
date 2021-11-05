@@ -17,6 +17,9 @@ function SelectMenu:__init(data)
 
   -- Base constructor initializing
   Component.__init(self, data, componentType.selectMenu)
+
+  -- Properly load rest of data
+  self:_load(data)
 end
 
 function SelectMenu._validate(data)
@@ -31,12 +34,19 @@ function SelectMenu._eligibilityCheck(c)
   return not c, err
 end
 
-function SelectMenu:disable()
-  return self:set("disabled", true)
-end
-
-function SelectMenu:enable()
-  return self:set("disabled", false)
+function SelectMenu:_load(data)
+  if data.options then
+    self:options(data.options)
+  end
+  if data.placeholder then
+    self:placeholder(data.placeholder)
+  end
+  if data.minValues then
+    self:minValues(data.minValues)
+  end
+  if data.maxValues then
+    self:maxValues(data.maxValues)
+  end
 end
 
 function SelectMenu:option(label, value, description, default, emoji)
