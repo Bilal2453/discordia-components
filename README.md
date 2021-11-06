@@ -6,6 +6,12 @@ As of time of writing this, the library is still in beta, but it should be fully
 ## Documentations
 For docs please refer to [the wiki](https://github.com/Bilal2453/discordia-components/wiki)
 
+## Installing
+
+To install this library you have two options:
+1. `lit install Bilal2453/discordia-components` (preferred)
+2. `git clone https://github.com/Bilal2453/discordia-components.git`
+
 ## Examples
 More examples and tutorials are planned, but as of now here are couple that should do:
 
