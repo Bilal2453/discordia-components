@@ -12,15 +12,18 @@ function Component:__init(data, type)
 end
 
 function Component:set(property, value)
-  if type(property) == "table" then
-    if self._load then
-      self:_load(property)
-    else
-      self._data = property
-    end
+  property = type(property) == "table" and property or {
+    [property] = value
+  }
+
+  if self._load then
+    self:_load(property)
   else
-    self._data[property] = value
+    for k, v in pairs(property) do
+      self._data[k] = v
+    end
   end
+
   return self
 end
 
