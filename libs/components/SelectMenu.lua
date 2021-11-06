@@ -2,11 +2,15 @@
 @c SelectMenu x Component
 @t ui
 @mt mem
-@p data table/Custom-ID-Resolvable
-@d Represents a Component of type SelectMenu. SelectMenu are interactive message components
-that offers the user multiple choices once one is selected an interactionCreate event is fired.
+@p data SelectMenu-Resolvable
+@d Represents a Component of type SelectMenu. SelectMenus are interactive message components
+that offers the user multiple choices form, once one is selected an interactionCreate event is fired.
 
-For accepted `data` table's fields see TODO.
+For accepted `data` table's fields see SelectMenu-Resolvable.
+
+General rules you should follow:
+1. Only a single SelectMenu can be sent in each Action Row.
+2. SelectMenu and Buttons cannot be in same row.
 ]=]
 
 local Component = require("containers/abstract/Component")
@@ -66,13 +70,12 @@ end
 @op value string
 @op description string
 @op default boolean
-@op emoji Emoji/table
+@op emoji Emoji-Resolvable
 @r SelectMenu
 @d Creates a new option in the menu with the provided values. If `label` is a table
-you should pass rest of parameters as fields in that table. Returns self.
+you should pass rest of parameters as fields in that table, the only required fields are `label` and `value`.
 
-If `emoji` is a table, you will have three fields available, `name` required,
-`id` and `animated` optional. For Unicode emotes you only need to set `name` to the Unicode.
+Returns self.
 ]=]
 function SelectMenu:option(label, value, description, default, emoji)
   local data = type(label) == "table" and label or {
@@ -102,6 +105,7 @@ end
 @d Overrides current options with the ones provided. `options` is an array of tables (25 at most),
 each representing an option, available fields for each option are: `label` and `value` required,
 `description`, `default`, `emoji` optional; See option method's parameters for more info.
+
 Returns self.
 ]=]
 function SelectMenu:options(options)
@@ -114,7 +118,9 @@ end
 @m placeholder
 @p placeholder string
 @r SelectMenu
-@d A placeholder in case nothing is specified. Returns self.
+@d A placeholder in case nothing is specified.
+
+Returns self.
 ]=]
 function SelectMenu:placeholder(placeholder)
   placeholder = tostring(placeholder)
@@ -127,6 +133,7 @@ end
 @p val number
 @r SelectMenu
 @d The least required amount of options to be selected. Must be in range 0 < `val` <= 25.
+
 Returns self.
 ]=]
 function SelectMenu:minValues(val)
@@ -139,7 +146,8 @@ end
 @m maxValues
 @p val number
 @r SelectMenu
-@d The upmost amount of options to be selected. Must be in range `val` <= 25.
+@d The upmost amount of options to be selected.Must be in range `val` <= 25.
+
 Returns self.
 ]=]
 function SelectMenu:maxValues(val)

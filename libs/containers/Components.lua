@@ -1,3 +1,12 @@
+--[=[
+@c Components
+@t ui
+@mt mem
+@op data Components-Resolvable
+@d Represents a set of Component objects, offering an interface to control, modify, and retrieve Components easily.
+This is the entry point of this library and what this whole thing is about, that is, the builder.
+]=]
+
 local discordia = require("discordia")
 local enums = require("enums")
 local class = discordia.class
@@ -180,18 +189,86 @@ function Components:_buildComponent(comp, data, ...)
   return obj
 end
 
+--[=[
+@m button
+@p data Button-Resolvable/Custom-ID-Resolvable
+@op actionRow number
+@r Components
+@d Constructs a new Button object with the initial provided data; if `data` is a string it is treated
+as if it were the `id` field. `actionRow` is an optional number of which Action Row this Button should go into.
+
+Returns self.
+]=]
 function Components:button(data, ...)
   assert(data, "data argument is required")
   self:_buildComponent(Button, data, ...)
   return self
 end
 
+--[=[
+@m SelectMenu
+@p data SelectMenu-Resolvable/Custom-ID-Resolvable
+@r Components
+@d Constructs a new SelectMenu object with the initial provided data; if `data` is a string
+it is treated as if it were the `id` field.
+
+Returns self.
+]=]
 function Components:selectMenu(data, ...)
   assert(data, "data argument is required")
   self:_buildComponent(SelectMenu, data, ...)
   return self
 end
 
+--[=[
+@m removeAllComponents
+@r Components
+@d Removes all stored components, and clears all caches.
+
+Returns self.
+]=]
+function Components:removeAllComponents()
+  self._buttons = {}
+  self._selectMenus = {}
+  self._cacheMap = {
+    [SelectMenu] = self._selectMenus,
+    [Button] = self._buttons,
+  }
+  return self
+end
+
+--[=[
+@m removeButton
+@p id string
+@r Components
+@d Removes a previously constructed Button object with the custom_id of `id`.
+
+Returns self.
+]=]
+function Components:removeButton(id)
+  return self:_remove(Button, id)
+end
+
+--[=[
+@m removeSelectMenu
+@p id string
+@r Components
+@d Removes a previously constructed SelectMenu object with the custom_id of `id`.
+
+Returns self.
+]=]
+function Components:removeSelectMenu(id)
+  return self:_remove(SelectMenu, id)
+end
+
+--[=[
+@m raw
+@r table
+@d Returns a table value of what the raw value Discord would accept is like based on assumptions
+of the current components.
+
+User should never need to use this. Only documented for advanced users.
+]=]
 function Components:raw()
   local data = {}
   local rows = self._rows
@@ -225,28 +302,12 @@ function Components:raw()
   return data
 end
 
-function Components:removeAllComponents()
-  self._buttons = {}
-  self._selectMenus = {}
-  self._cacheMap = {
-    [SelectMenu] = self._selectMenus,
-    [Button] = self._buttons,
-  }
-  return self
-end
-
-function Components:removeButton(id)
-  return self:_remove(Button, id)
-end
-
-function Components:removeSelectMenu(id)
-  return self:_remove(SelectMenu, id)
-end
-
+--[=[@p buttons ArrayIterable A cache of all constructed Button objects in this instance.]=]
 function get.buttons(self)
   return ArrayIterable(self._buttons)
 end
 
+--[=[@p selectMenus ArrayIterable A cache of all constructed SelectMenu objects in this instance.]=]
 function get.selectMenus(self)
   return ArrayIterable(self._selfMenus)
 end

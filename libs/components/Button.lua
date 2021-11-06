@@ -2,13 +2,19 @@
 @c Button x Component
 @t ui
 @mt mem
-@p data table/Custom-ID-Resolvable
+@p data Button-Resolvable
 @op actionRow number
 @d Represents a Component of type Button. Buttons are interactive message components
-that when pressed Discord sends interactionCreate event. The Button class
+that when pressed Discord fires an interactionCreate event. The Button class
 contains methods to retrieve and set different attributes of a Button.
 
-For accepted `data` table's fields see TODO.
+For accepted `data` table's fields see Button-Resolvable.
+
+General rules you should follow:
+1. Non-link buttons must have an `id` field, and cannot have `url`.
+2. Link buttons must have `url`, and cannot have `id`.
+3. Link buttons do not fire `interactionCreate`; meaning you cannot listen to a link button to know when it is pressed.
+4. An Action Row can contain up to 5 buttons only, and a button can never be in the same row as a select menu.
 ]=]
 
 local Component = require("containers/abstract/Component")
@@ -91,9 +97,10 @@ end
 @m style
 @p style string/number
 @r Button
-@d Sets the style attribute of the Button. If style is set to
-`link` a `url` attribute must be provided instead of `id`.
-See `buttonStyle` enumeration for acceptable `style` values. Returns self.
+@d Sets the `style` attribute of the Button.
+See `buttonStyle` enumeration for acceptable `style` values.
+
+Returns self.
 ]=]
 function Button:style(style)
   style = Resolver.buttonStyle(style)
@@ -104,7 +111,9 @@ end
 @m label
 @p label string
 @r Button
-@d Sets the label of the Button. Must be in the range 0 < `label` < 81. Returns self.
+@d Sets the `label` field of the Button. Must be in the range 0 < `label` < 81.
+
+Returns self.
 ]=]
 function Button:label(label)
   label = tostring(label)
@@ -116,7 +125,9 @@ end
 @m url
 @p url string
 @r Button
-@d Sets a URL for a Link Button. If Button's style was not `link` it will be forcibly changed to that.
+@d Sets the `url` for a Link Button. If Button's style was not `link` it will be forcibly changed to that.
+Keep in mind, a Link Button cannot have an `id`.
+
 Returns self.
 ]=]
 function Button:url(url)
@@ -128,14 +139,14 @@ end
 --[=[
 @m emoji
 @p emoji Emoji-Resolvable/string
-@op id Emoji/table
+@op id Emoji-ID-Resolvable
 @op animated boolean
 @r Button
-@d Sets an Emoji for the Button. `emoji` can be a string to indicate emoji name.
-Returns self.
+@d Sets an `emoji` field for the Button. `emoji` can be a string to indicate emoji name
+in which case `id` and `animated` parameters will be available for use.
+For Unicode emotes you only need to set `name` field to the desired Unicode.
 
-If `emoji` is a table, you will have three fields available, `name` required,
-`id` and `animated` optional. For Unicode emotes you only need to set `name` to the Unicode.
+Returns self.
 ]=]
 function Button:emoji(emoji, id, animated)
   if type(emoji) ~= "table" then
