@@ -4,7 +4,7 @@ discordia-components is a Discordia 2.x extension that makes sending and respond
 As of time of writing this, the library is still in beta, but it should be fully functional with only few bugs.
 
 ## Documentations
-For docs place refer to [the wiki](https://github.com/Bilal2453/discordia-components/wiki)
+For docs please refer to [the wiki](https://github.com/Bilal2453/discordia-components/wiki)
 
 ## Examples
 More examples and tutorials are planned, but as of now here are couple that should do:
@@ -17,7 +17,7 @@ require("discordia-components")
 local client = discordia.Client()
 local musicalControls = discordia.Components {
   {
-    id = "skip_single"
+    id = "skip_single",
     type = "button",
     label = "Skip Song",
     style = "secondary",
@@ -70,7 +70,7 @@ end)
 client:run("Bot TOKEN")
 ```
 
-Simple Tic Tac Toe:
+Simple Tic Tac Toe: (Note this does not check for game end or winners)
 ```lua
 local discordia = require("discordia")
 require("discordia-components")
@@ -79,13 +79,17 @@ local client = discordia.Client()
 local function defaultControls()
   local defaultButtons = discordia.Components()
   for i=1, 9 do
-    defaultButtons:button(i, math.ceil(i / 3))
-      :style("secondary")
+    defaultButtons:button {
+      id = i,
+      style = "secondary",
+      label = "-",
+      actionRow = math.ceil(i / 3),
+    }
   end
   defaultButtons:button {
     id = "abort",
     label = "Abort",
-    style = "danger"
+    style = "danger",
     actionRow = 4,
   }
   return defaultButtons
@@ -94,7 +98,7 @@ end
 local activeGames = {}
 
 client:on("messageCreate", function(msg)
-  if msg.content == "!start tie" then
+  if msg.content == "!tie" then
     if activeGames[msg.author.id] then
       msg:reply "A game is already active! consider aborting it before starting a new one"
       return
@@ -103,7 +107,7 @@ client:on("messageCreate", function(msg)
     local playerState = true
 
     local components = defaultControls()
-    local cmsg = msg:replyComponents(components, "Your gameplay is ready:")
+    local cmsg = msg:replyComponents("Your gameplay is ready:", components)
 
     while true do
       local _, inter = cmsg:waitComponent("button")
