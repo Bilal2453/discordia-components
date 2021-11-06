@@ -1,8 +1,22 @@
+--[=[
+@c Button x Component
+@t ui
+@mt mem
+@p data table/Custom-ID-Resolvable
+@op actionRow number
+@d Represents a Component of type Button. Buttons are interactive message components
+that when pressed Discord sends interactionCreate event. The Button class
+contains methods to retrieve and set different attributes of a Button.
+
+For accepted `data` table's fields see TODO.
+]=]
+
 local Component = require("containers/abstract/Component")
 local discordia = require("discordia")
 local Resolver = require("Resolver")
 local enums = require("enums")
 local class = discordia.class
+local buttonStyle = enums.buttonStyle
 local componentType = enums.componentType
 
 local Button = class("Button", Component)
@@ -19,9 +33,9 @@ function Button:__init(data, actionRow)
 
   -- Auto defaulting button style when needed, otherwise resolving it
   if url and not data.style then
-    data.style = 5
+    data.style = buttonStyle.link
   elseif id and not data.style then
-    data.style = 1
+    data.style = buttonStyle.primary
   end
 
   -- Base constructor initializing
@@ -73,28 +87,61 @@ function Button:_load(data)
   end
 end
 
+--[=[
+@m style
+@p style string/number
+@r Button
+@d Sets the style attribute of the Button. If style is set to
+`link` a `url` attribute must be provided instead of `id`.
+See `buttonStyle` enumeration for acceptable `style` values. Returns self.
+]=]
 function Button:style(style)
   style = Resolver.buttonStyle(style)
-  return self:set("style", style or 1)
+  return self:set("style", style or buttonStyle.primary)
 end
 
+--[=[
+@m label
+@p label string
+@r Button
+@d Sets the label of the Button. Must be in the range 0 < `label` < 81. Returns self.
+]=]
 function Button:label(label)
   label = tostring(label)
   assert(label and #label <= 80 and #label > 0, "label must be 1-80 characters long in length")
   return self:set("label", label)
 end
 
+--[=[
+@m url
+@p url string
+@r Button
+@d Sets a URL for a Link Button. If Button's style was not `link` it will be forcibly changed to that.
+Returns self.
+]=]
 function Button:url(url)
   url = tostring(url)
   if self._data.style ~= 5 then self:set("style", 5) end
   return self:set("url", url)
 end
 
-function Button:emoji(emoji, name, animated)
+--[=[
+@m emoji
+@p emoji Emoji-Resolvable/string
+@op id Emoji/table
+@op animated boolean
+@r Button
+@d Sets an Emoji for the Button. `emoji` can be a string to indicate emoji name.
+Returns self.
+
+If `emoji` is a table, you will have three fields available, `name` required,
+`id` and `animated` optional. For Unicode emotes you only need to set `name` to the Unicode.
+]=]
+function Button:emoji(emoji, id, animated)
   if type(emoji) ~= "table" then
     emoji = {
-      id = emoji,
-      name = name,
+      id = id,
+      name = emoji,
       animated = animated,
     }
   end

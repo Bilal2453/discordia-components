@@ -1,3 +1,14 @@
+--[=[
+@c SelectMenu x Component
+@t ui
+@mt mem
+@p data table/Custom-ID-Resolvable
+@d Represents a Component of type SelectMenu. SelectMenu are interactive message components
+that offers the user multiple choices once one is selected an interactionCreate event is fired.
+
+For accepted `data` table's fields see TODO.
+]=]
+
 local Component = require("containers/abstract/Component")
 local discordia = require("discordia")
 local enums = require("enums")
@@ -49,6 +60,20 @@ function SelectMenu:_load(data)
   end
 end
 
+--[=[
+@m option
+@p label table/string
+@op value string
+@op description string
+@op default boolean
+@op emoji Emoji/table
+@r SelectMenu
+@d Creates a new option in the menu with the provided values. If `label` is a table
+you should pass rest of parameters as fields in that table. Returns self.
+
+If `emoji` is a table, you will have three fields available, `name` required,
+`id` and `animated` optional. For Unicode emotes you only need to set `name` to the Unicode.
+]=]
 function SelectMenu:option(label, value, description, default, emoji)
   local data = type(label) == "table" and label or {
     label = label,
@@ -70,24 +95,53 @@ function SelectMenu:option(label, value, description, default, emoji)
   return self
 end
 
+--[=[
+@m options
+@p options table
+@r SelectMenu
+@d Overrides current options with the ones provided. `options` is an array of tables (25 at most),
+each representing an option, available fields for each option are: `label` and `value` required,
+`description`, `default`, `emoji` optional; See option method's parameters for more info.
+Returns self.
+]=]
 function SelectMenu:options(options)
   assert(type(options) == "table", "options must be a table value")
   assert(#options <= 25, "options can at most have 25 option only")
   return self:set("options", options)
 end
 
+--[=[
+@m placeholder
+@p placeholder string
+@r SelectMenu
+@d A placeholder in case nothing is specified. Returns self.
+]=]
 function SelectMenu:placeholder(placeholder)
   placeholder = tostring(placeholder)
   assert(placeholder and placeholder <= 100, "placeholder must be a string that is at most 100 character long")
   return self:set("placeholder", placeholder)
 end
 
+--[=[
+@m minValues
+@p val number
+@r SelectMenu
+@d The least required amount of options to be selected. Must be in range 0 < `val` <= 25.
+Returns self.
+]=]
 function SelectMenu:minValues(val)
   val = tonumber(val) or -1
   assert(val > 0 and val <= 25, "minValues must be a number in the range 0-25")
   return self:set("minValues", val)
 end
 
+--[=[
+@m maxValues
+@p val number
+@r SelectMenu
+@d The upmost amount of options to be selected. Must be in range `val` <= 25.
+Returns self.
+]=]
 function SelectMenu:maxValues(val)
   val = tonumber(val) or -1
   assert(val <= 25, "maxValues must be a number that is <= 25")
