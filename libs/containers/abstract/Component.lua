@@ -20,6 +20,11 @@ function Component:__init(data, type)
   self._actionRow = tonumber(data.actionRow)
 end
 
+function Component:_set(property, value)
+  self._data[property] = value
+  return self
+end
+
 --[=[
 @m set
 @p property string/table
@@ -64,7 +69,7 @@ end
 Returns self.
 ]=]
 function Component:disable()
-  return self:set("disabled", true)
+  return self:_set("disabled", true)
 end
 
 --[=[
@@ -75,7 +80,7 @@ end
 Returns self.
 ]=]
 function Component:enable()
-  return self:set("disabled", false)
+  return self:_set("disabled", false)
 end
 
 local function lowercase(m)

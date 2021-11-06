@@ -104,7 +104,7 @@ Returns self.
 ]=]
 function Button:style(style)
   style = Resolver.buttonStyle(style)
-  return self:set("style", style or buttonStyle.primary)
+  return self:_set("style", style or buttonStyle.primary)
 end
 
 --[=[
@@ -118,7 +118,7 @@ Returns self.
 function Button:label(label)
   label = tostring(label)
   assert(label and #label <= 80 and #label > 0, "label must be 1-80 characters long in length")
-  return self:set("label", label)
+  return self:_set("label", label)
 end
 
 --[=[
@@ -132,8 +132,8 @@ Returns self.
 ]=]
 function Button:url(url)
   url = tostring(url)
-  if self._data.style ~= 5 then self:set("style", 5) end
-  return self:set("url", url)
+  if self._data.style ~= 5 then self:_set("style", 5) end
+  return self:_set("url", url)
 end
 
 --[=[
@@ -157,7 +157,7 @@ function Button:emoji(emoji, id, animated)
     }
   end
   emoji = assert(Resolver.buttonEmoji(emoji), "emoji object must contain the fields name, id and animated at the very least")
-  return self:set("emoji", {
+  return self:_set("emoji", {
     animated = emoji.animated,
     name = emoji.name,
     id = emoji.id,

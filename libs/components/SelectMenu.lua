@@ -111,7 +111,7 @@ Returns self.
 function SelectMenu:options(options)
   assert(type(options) == "table", "options must be a table value")
   assert(#options <= 25, "options can at most have 25 option only")
-  return self:set("options", options)
+  return self:_set("options", options)
 end
 
 --[=[
@@ -125,7 +125,7 @@ Returns self.
 function SelectMenu:placeholder(placeholder)
   placeholder = tostring(placeholder)
   assert(placeholder and placeholder <= 100, "placeholder must be a string that is at most 100 character long")
-  return self:set("placeholder", placeholder)
+  return self:_set("placeholder", placeholder)
 end
 
 --[=[
@@ -139,7 +139,7 @@ Returns self.
 function SelectMenu:minValues(val)
   val = tonumber(val) or -1
   assert(val > 0 and val <= 25, "minValues must be a number in the range 0-25")
-  return self:set("minValues", val)
+  return self:_set("minValues", val)
 end
 
 --[=[
@@ -153,7 +153,7 @@ Returns self.
 function SelectMenu:maxValues(val)
   val = tonumber(val) or -1
   assert(val <= 25, "maxValues must be a number that is <= 25")
-  return self:set("maxValues", val)
+  return self:_set("maxValues", val)
 end
 
 return SelectMenu
