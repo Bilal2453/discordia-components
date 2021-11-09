@@ -87,7 +87,7 @@ function SelectMenu:option(label, value, description, default, emoji)
   }
 
   local err = "field %s must be a string that is at most 100 character long"
-  local function check(v) return type(v) == "string" and v <= 100 end
+  local function check(v) return type(v) == "string" and #v <= 100 end
   assert(data.label and check(data.label), err:format("label"))
   assert(data.value and check(data.value), err:format("label"))
   assert(not data.description or check(data.description), err:format("description"))
@@ -124,7 +124,7 @@ Returns self.
 ]=]
 function SelectMenu:placeholder(placeholder)
   placeholder = tostring(placeholder)
-  assert(placeholder and placeholder <= 100, "placeholder must be a string that is at most 100 character long")
+  assert(placeholder and #placeholder <= 100, "placeholder must be a string that is at most 100 character long")
   return self:_set("placeholder", placeholder)
 end
 
