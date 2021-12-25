@@ -9,7 +9,6 @@ local classes = class.classes
 local buttonStyle = enums.buttonStyle
 local componentType = enums.componentType
 
-local isSubclass = class.isSubclass
 local isInstance = class.isInstance
 
 local Resolver = {}
@@ -36,7 +35,7 @@ end
 function Resolver.rawComponents(comp)
   if isInstance(comp, classes.Components) then
     return comp:raw()
-  elseif isSubclass(comp, classes.Component) then
+  elseif isInstance(comp, classes.Component) then
     return { -- Auto-wrap the component in an Action Row
       {
         type = componentType.actionRow,

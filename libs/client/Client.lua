@@ -15,7 +15,7 @@ local interactionType = discordia.enums.interactionType
 local Client = classes.Client
 
 local function buildPredicate(msg, typ, id, predicate)
-  predicate = type(predicate) == "function" or false
+  predicate = type(predicate) == "function" and predicate or false
   return function(inter, ...)
     return (inter.type == interactionType.messageComponent) -- interaction corresponds to message component?
       and (not msg or inter.message and inter.message.id == msg.id) -- interaction was on same targeted message?
