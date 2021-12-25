@@ -9,8 +9,10 @@ For docs please refer to [the wiki](https://github.com/Bilal2453/discordia-compo
 ## Installing
 
 To install this library you have two options:
-1. `lit install Bilal2453/discordia-components` (preferred)
-2. `git clone https://github.com/Bilal2453/discordia-components.git`
+**Note: Due to unsolved bug in Lit, the package will error when installing; as of now you will have to use the Git method described below.**
+1. `lit install Bilal2453/discordia-components`. ~~(preferred)~~
+2. `git clone https://github.com/Bilal2453/discordia-components.git && git clone https://github.com/Bilal2453/discordia-interactions.git`.
+    After cloning both, make sure to rename them to become `discordia-components` and `discordia-interactions` respectively. Then moving both into your `deps` folder.
 
 ## Examples
 More examples and tutorials are planned, but as of now here are couple that should do:
