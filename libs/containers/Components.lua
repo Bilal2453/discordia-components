@@ -11,7 +11,7 @@ local discordia = require("discordia")
 local enums = require("enums")
 local class = discordia.class
 local classes = class.classes
-local ceil, max = math.ceil, math.max
+local ceil, max, min = math.ceil, math.max, math.min
 local isInstance = class.isInstance
 local componentType = enums.componentType
 
@@ -143,9 +143,7 @@ end
 
 function Components:_isEligible(actionRow, predicate)
   actionRow = tonumber(actionRow)
-  local targetRow = actionRow or 1
   local rows = self._rows
-  local cell
 
   -- Do we even have an available action row to start with?
   if rows.n >= MAX_COMPONENTS then
@@ -154,7 +152,7 @@ function Components:_isEligible(actionRow, predicate)
   end
 
   -- Does the specified action row jump over an empty row? that's a gap between rows
-  if targetRow and (targetRow - rows.m) > 1 then
+  if actionRow and actionRow > rows.m + 1 then
     return false, "Cannot use an Action Row while the previous row is empty"
   end
 
@@ -165,11 +163,15 @@ function Components:_isEligible(actionRow, predicate)
 
   -- If actionRow is presented, run the predicate-check over that specified row only
   -- otherwise, if no actionRow is specified, check all rows until one is available (or not)
-  local success
-  repeat
-    success, cell = checkPredicate(rows, targetRow, predicate)
-    targetRow = success and targetRow or targetRow + 1
-  until success or actionRow or targetRow > MAX_ROWS or targetRow - rows.m > 1
+  local success, cell
+  if actionRow then
+    success, cell = checkPredicate(rows, actionRow, predicate)
+  else
+    for row = 1, min(MAX_ROWS, rows.m + 1) do
+      success, cell = checkPredicate(rows, row, predicate)
+      if success then break end
+    end
+  end
   if not success then
     return false, actionRow and cell or "No eligible Action Row for the provided component"
   end
