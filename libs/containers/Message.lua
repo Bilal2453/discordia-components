@@ -4,7 +4,6 @@
 @d A patched version of the Discordia Message class.
 ]=]
 
-local null = require("json").null
 local Resolver = require("Resolver")
 local discordia = require("discordia")
 
@@ -38,7 +37,7 @@ Returns the modified version of the Message.
 function Message:updateComponents(comp, data)
   data = type(data) == "table" and data or {}
   if not comp then
-    data.components = null
+    data.components = {}
     return self:_modify(data)
   end
   assert(type(comp) == "table", "bad argument #1 to updateComponents (expected a Components|falsy value)")
