@@ -36,7 +36,7 @@ If `components` is set to falsy, all components on that message will be removed.
 Returns the modified version of the Message.
 ]=]
 function Message:updateComponents(comp, data)
-  data = type(data) == "table" or {}
+  data = type(data) == "table" and data or {}
   if not comp then
     data.components = null
     return self:_modify(data)
