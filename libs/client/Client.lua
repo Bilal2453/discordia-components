@@ -1,9 +1,3 @@
---[=[
-@c Client
-@t patch
-@d A patched version of the Discordia Client class.
-]=]
-
 local discordia = require("discordia")
 local class = discordia.class
 local classes = class.classes
@@ -12,6 +6,9 @@ local enums = require("enums")
 local componentType = enums.componentType
 local interactionType = discordia.enums.interactionType
 
+---The Discordia Client class patched to include additional features.
+---@class Client
+---<!tag:patch>
 local Client = classes.Client
 
 local function buildPredicate(msg, typ, id, predicate)
@@ -25,23 +22,22 @@ local function buildPredicate(msg, typ, id, predicate)
   end
 end
 
---[=[
-@m waitComponent
-@op msg Message
-@op type string/number
-@op id Custom-ID-Resolvable
-@op timeout number
-@op predicate function
-@r boolean
-@r ...
-@d Equivalent to `client:waitFor("interactionCreate", timeout, predicate)`
-except that it pre-provides a predicate for ease of use.
-If `msg` is provided, only interactionCreate event that reference this Message will pass.
-`type` is the type of the component interaction see componentType enumeration for acceptable values,
-if none specified any will match.
-`id` is the component custom_id, if none provided any id will match,
-`timeout` behave similar to waitFor's, so do `predicate`.
-]=]
+---@alias Custom-ID-Resolvable string
+
+---Equivalent to `client:waitFor("interactionCreate", timeout, predicate)`
+---except that it pre-provides a predicate for ease of use.
+---If `msg` is provided, only interactionCreate event that reference this Message will pass.
+---`type` is the type of the component interaction see componentType enumeration for acceptable values,
+---if none specified any will match.
+---`id` is the component custom_id, if none provided any id will match,
+---`timeout` behave similar to waitFor's, so do `predicate`.
+---@param msg? Message
+---@param typ? string|number
+---@param id? Custom-ID-Resolvable
+---@param timeout? number
+---@param predicate? function
+---@return boolean
+---@return ...
 function Client:waitComponent(msg, typ, id, timeout, predicate)
   if msg then
     assert(#msg._components > 0, "Cannot wait for components on a message that does not even contain any components")
