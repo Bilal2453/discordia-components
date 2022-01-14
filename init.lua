@@ -1,5 +1,5 @@
 local discordia = require("discordia")
-require("../discordia-interactions")
+require("discordia-interactions")
 
 -- [[ Patch Following Classes Into Discordia ]]
 require("client/Client")
@@ -20,7 +20,7 @@ end
 local module = {
   Button = require("components/Button"),
   SelectMenu = require("components/SelectMenu"),
-  Components = require("containers/Components")
+  Components = require("containers/Components"),
 }
 
 -- [[ Patch the Module into Discordia as a Shortcut]]
