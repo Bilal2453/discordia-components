@@ -72,7 +72,7 @@ end
 ---
 ---Returns self.
 ---@param label table|string
----@param value? string
+---@param value string
 ---@param description? string
 ---@param default? boolean
 ---@param emoji? Emoji-Resolvable

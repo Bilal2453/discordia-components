@@ -21,8 +21,8 @@ do local oldLoad = Message._loadMore
 end
 
 ---Similar to `Message:update(data)` except `data` is optional and mainly used to modify `components` field of a message.
----If `components` is set to falsy, all components on that message will be removed.
----`data` may be optionally supplied to override more fields such as `content`, `embed`, etc.
+---If `components` is false/nil, all components on that message will be removed.
+---`data` may optionally be supplied to override other fields such as `content`, `embed`, etc.
 ---
 ---Returns the modified version of the Message.
 ---@param comp? Components-Resolvable|boolean
@@ -35,7 +35,7 @@ function Message:updateComponents(comp, data)
     data.components = {}
     return self:_modify(data)
   end
-  assert(type(comp) == "table", "bad argument #1 to updateComponents (expected a Components|falsy value)")
+  assert(comp == true or type(comp) == "table", "bad argument #1 to updateComponents (expected a Components|falsy value)")
   data.components = rawComponents(comp)
   return self:_modify(data)
 end
