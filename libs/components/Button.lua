@@ -139,19 +139,8 @@ end
 ---@param animated? boolean
 ---@return Button self
 function Button:emoji(emoji, id, animated)
-  if type(emoji) ~= "table" then
-    emoji = {
-      id = id,
-      name = emoji,
-      animated = animated,
-    }
-  end
-  emoji = assert(Resolver.buttonEmoji(emoji), "emoji object must contain the fields name, id and animated at the very least")
-  return self:_set("emoji", {
-    animated = emoji.animated,
-    name = emoji.name,
-    id = emoji.id,
-  })
+  emoji = Resolver.emoji(emoji, id, animated)
+  return self:_set("emoji", emoji)
 end
 
 return Button

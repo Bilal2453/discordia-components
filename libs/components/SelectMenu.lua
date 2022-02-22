@@ -1,3 +1,4 @@
+local resolveEmoji = require("Resolver").emoji
 local Component = require("containers/abstract/Component")
 local discordia = require("discordia")
 local enums = require("enums")
@@ -84,7 +85,7 @@ function SelectMenu:option(label, value, description, default, emoji)
     value = value,
     description = description,
     default = default,
-    emoji = emoji
+    emoji = emoji and resolveEmoji(emoji),
   }
 
   local err = "field %s must be a string that is at most 100 character long"

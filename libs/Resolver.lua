@@ -22,14 +22,18 @@ function Resolver.buttonStyle(style)
   end
 end
 
-function Resolver.buttonEmoji(emoji) -- Partial emoji object
-  if type(emoji) == "table" and emoji.name then
-    return {
-      animated = emoji.animated,
-      name = emoji.name,
-      id = emoji.id
-    }
-  end
+function Resolver.emoji(emoji, id, animated) -- Partial emoji object
+  emoji = type(emoji) == "table" and emoji or {
+    id = id,
+    name = emoji,
+    animated = animated,
+  }
+  assert(type(emoji.name) ~= "string", "an emoji object must at least contain name field")
+  return {
+    id = emoji.id,
+    name = emoji.name,
+    animated = emoji.animated,
+  }
 end
 
 function Resolver.rawComponents(comp)
