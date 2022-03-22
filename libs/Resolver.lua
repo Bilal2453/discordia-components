@@ -28,7 +28,7 @@ function Resolver.emoji(emoji, id, animated) -- Partial emoji object
     name = emoji,
     animated = animated,
   }
-  assert(type(emoji.name) ~= "string", "an emoji object must at least contain name field")
+  assert(type(emoji.name) == "string", "an emoji object must at least contain a string name field")
   return {
     id = emoji.id,
     name = emoji.name,
