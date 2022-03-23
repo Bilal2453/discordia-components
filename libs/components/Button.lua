@@ -58,9 +58,9 @@ function Button._validate(data, actionRow)
   return data
 end
 
+local eligibilityError = "Cannot have a Button in an Action Row that also contains Select Menu component!"
 function Button._eligibilityCheck(c)
-  local err = "Cannot have a Button in an Action Row that also contains Select Menu component!"
-  return c.type ~= componentType.selectMenu, err
+  return c.type ~= componentType.selectMenu, eligibilityError
 end
 
 ---<!ignore>

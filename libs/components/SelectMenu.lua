@@ -43,9 +43,9 @@ function SelectMenu._validate(data)
   return data
 end
 
+local eligibilityError = "An Action Row that contains a Select Menu cannot contain any other component!"
 function SelectMenu._eligibilityCheck(c)
-  local err = "An Action Row that contains a Select Menu cannot contain any other component!"
-  return not c, err
+  return not c, eligibilityError
 end
 
 ---<!ignore>
@@ -91,7 +91,7 @@ function SelectMenu:option(label, value, description, default, emoji)
   local err = "field %s must be a string that is at most 100 character long"
   local function check(v) return type(v) == "string" and #v <= 100 end
   assert(data.label and check(data.label), err:format("label"))
-  assert(data.value and check(data.value), err:format("label"))
+  assert(data.value and check(data.value), err:format("value"))
   assert(not data.description or check(data.description), err:format("description"))
 
   local options = self._data.options
@@ -138,7 +138,7 @@ function SelectMenu:minValues(val)
   return self:_set("minValues", val)
 end
 
----The upmost amount of options to be selected.Must be in range `val` <= 25.
+---The upmost amount of options to be selected. Must be in range `val` <= 25.
 ---
 ---Returns self.
 ---@param val number

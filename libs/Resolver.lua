@@ -51,8 +51,8 @@ function Resolver.rawComponents(comp)
   end
 end
 
+local bases = {nil, classes.Button, classes.SelectMenu}
 function Resolver.objComponents(data)
-  local bases = {nil, classes.Button, classes.SelectMenu}
   local nd, cell = classes.Components(), nil
   for c = 1, #data do
     cell = data[c]

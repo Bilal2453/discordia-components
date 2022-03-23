@@ -21,9 +21,10 @@ local module = {
   Button = require("components/Button"),
   SelectMenu = require("components/SelectMenu"),
   Components = require("containers/Components"),
+  Component = require('containers/abstract/Component'),
 }
 
--- [[ Patch the Module into Discordia as a Shortcut]]
+-- [[ Patch the Module into Discordia as a Shortcut ]]
 do
   for k, v in pairs(module) do
     discordia[k] = v
