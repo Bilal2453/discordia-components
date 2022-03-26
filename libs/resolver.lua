@@ -11,9 +11,9 @@ local componentType = enums.componentType
 
 local isInstance = class.isInstance
 
-local Resolver = {}
+local resolver = {}
 
-function Resolver.buttonStyle(style)
+function resolver.buttonStyle(style)
   local t = type(style)
   if t == "string" then
     return buttonStyle[style]
@@ -22,7 +22,7 @@ function Resolver.buttonStyle(style)
   end
 end
 
-function Resolver.emoji(emoji, id, animated) -- Partial emoji object
+function resolver.emoji(emoji, id, animated) -- Partial emoji object
   emoji = type(emoji) == "table" and emoji or {
     id = id,
     name = emoji,
@@ -36,7 +36,7 @@ function Resolver.emoji(emoji, id, animated) -- Partial emoji object
   }
 end
 
-function Resolver.rawComponents(comp)
+function resolver.rawComponents(comp)
   if isInstance(comp, classes.Components) then
     return comp:raw()
   elseif isInstance(comp, classes.Component) then
@@ -51,18 +51,18 @@ function Resolver.rawComponents(comp)
   end
 end
 
-local bases = {nil, classes.Button, classes.SelectMenu}
-function Resolver.objComponents(data)
-  local nd, cell = classes.Components(), nil
+function resolver.objComponents(data)
+  local bases = {nil, classes.Button, classes.SelectMenu}
+  local instance, cell = classes.Components(), nil
   for c = 1, #data do
     cell = data[c]
     if type(cell) ~= "table" then return end -- definitely an invalid component
     cell.type = type(cell.type) == "number" and cell.type or componentType[cell.type]
     if bases[cell.type] then
-      nd:_buildComponent(bases[cell.type], cell)
+      instance:_buildComponent(bases[cell.type], cell)
     end
   end
-  return nd
+  return instance
 end
 
-return Resolver
+return resolver

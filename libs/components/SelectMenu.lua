@@ -1,6 +1,7 @@
-local resolveEmoji = require("Resolver").emoji
-local Component = require("containers/abstract/Component")
 local discordia = require("discordia")
+local Component = require("containers/abstract/Component")
+local resolveEmoji = require("resolver").emoji
+
 local enums = require("enums")
 local class = discordia.class
 local componentType = enums.componentType
@@ -10,11 +11,11 @@ local componentType = enums.componentType
 ---Represents a Component of type SelectMenu.
 ---SelectMenus are interactive message components that offers the user multiple choices form, once one is selected an interactionCreate event is fired.
 ---
----For accepted `data` table's fields see SelectMenu-Resolvable.
+---For accepted `data` fields see SelectMenu-Resolvable.
 ---
 ---General rules you should follow:
 ---1. Only a single SelectMenu can be sent in each Action Row.
----2. SelectMenu and Buttons cannot be in same row.
+---2. SelectMenu and Buttons cannot be in the same row.
 ---@class SelectMenu: Component
 ---@type fun(data: SelectMenu-Resolvable): SelectMenu
 ---<!tag:interface> <!method-tag:mem>

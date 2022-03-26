@@ -1,6 +1,6 @@
 return {
   name = "Bilal2453/discordia-components",
-  version = "0.0.3",
+  version = "1.0.0",
   description = "A Discordia extension to provide Message Components support such as Buttons.",
   tags = { "discordia", "discord", "components", "buttons", "select menus" },
   license = "Apache License 2.0",
@@ -9,6 +9,7 @@ return {
   dependencies = { "Bilal2453/discordia-interactions" },
   files = {
     "**.lua",
-    "!test*"
+    "!test*",
+    "!examples",
   }
 }

@@ -1,13 +1,21 @@
 local discordia = require("discordia")
 require("discordia-interactions")
 
--- [[ Patch Following Classes Into Discordia ]]
+-- [[ Define the module's classes ]]
+local module = {
+  Component = require('containers/abstract/Component'),
+  Components = require("containers/Components"),
+  Button = require("components/Button"),
+  SelectMenu = require("components/SelectMenu"),
+}
+
+-- [[ Patch the following Discordia classes ]]
 require("client/Client")
 require("containers/abstract/Component")
 require("containers/abstract/TextChannel")
 require("containers/Message")
 
--- [[ Patch Discordia's Enums to Add New Types ]]
+-- [[ Patch Discordia's enums to add additional values ]]
 do
   local enums = require("enums")
   local discordiaEnums = discordia.enums
@@ -17,18 +25,9 @@ do
   end
 end
 
-local module = {
-  Button = require("components/Button"),
-  SelectMenu = require("components/SelectMenu"),
-  Components = require("containers/Components"),
-  Component = require('containers/abstract/Component'),
-}
-
--- [[ Patch the Module into Discordia as a Shortcut ]]
-do
-  for k, v in pairs(module) do
-    discordia[k] = v
-  end
+-- [[ Path the module into Discordia as an entry point ]]
+for k, v in pairs(module) do
+  discordia[k] = v
 end
 
 return module

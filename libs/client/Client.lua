@@ -14,11 +14,17 @@ local Client = classes.Client
 local function buildPredicate(msg, typ, id, predicate)
   predicate = type(predicate) == "function" and predicate or false
   return function(inter, ...)
-    return (inter.type == interactionType.messageComponent) -- interaction corresponds to message component?
-      and (not msg or inter.message and inter.message.id == msg.id) -- interaction was on same targeted message?
-      and (not typ or typ == inter.data.component_type) -- does component type match user provided one if any?
-      and (not id or id == inter.data.custom_id) -- does component id match user provided one if any?
-      and (not predicate or predicate(inter, ...)) -- is user provided predicate satisfied if any?
+    return
+      -- interaction corresponds to message component?
+      (inter.type == interactionType.messageComponent)
+      -- interaction was on same targeted message?
+      and (not msg or inter.message and inter.message.id == msg.id)
+      -- does component type match user provided one if any?
+      and (not typ or typ == inter.data.component_type)
+      -- does component id match user provided one if any?
+      and (not id or id == inter.data.custom_id)
+      -- is user provided predicate satisfied if any?
+      and (not predicate or predicate(inter, ...))
   end
 end
 

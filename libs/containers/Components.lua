@@ -6,8 +6,8 @@ local ceil, max, min = math.ceil, math.max, math.min
 local isInstance = class.isInstance
 local componentType = enums.componentType
 
-local Resolver = require("Resolver")
-local objComponents = Resolver.objComponents
+local resolver = require("resolver")
+local objComponents = resolver.objComponents
 
 local ArrayIterable = classes.ArrayIterable
 local SelectMenu = require("components/SelectMenu")

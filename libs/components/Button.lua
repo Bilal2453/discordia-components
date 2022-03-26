@@ -1,6 +1,6 @@
 local Component = require("containers/abstract/Component")
 local discordia = require("discordia")
-local Resolver = require("Resolver")
+local resolver = require("resolver")
 local enums = require("enums")
 local class = discordia.class
 local buttonStyle = enums.buttonStyle
@@ -12,13 +12,12 @@ local componentType = enums.componentType
 ---that when pressed Discord fires an interactionCreate event. The Button class
 ---contains methods to retrieve and set different attributes of a Button.
 ---
----For accepted `data` table's fields see Button-Resolvable.
+---For accepted `data` fields see Button-Resolvable.
 ---
 ---General rules you should follow:
----1. Non-link buttons must have an `id` field, and cannot have `url`.
----2. Link buttons must have `url`, and cannot have `id`.
----3. Link buttons do not fire `interactionCreate`; meaning you cannot listen to a link button to know when it is pressed.
----4. An Action Row can contain up to 5 buttons only, and a button can never be in the same row as a select menu.
+---1. Link buttons must have `url`, and cannot have `id`. And vise versa.
+---2. Link buttons do not fire `interactionCreate`; meaning you cannot listen to a link button to know when it is pressed.
+---3. An Action Row can contain up to 5 buttons only, and a button can never be in the same row as a select menu.
 ---@class Button: Component
 ---@type fun(data: Button-Resolvable, actionRow?: number)
 ---<!tag:interface> <!method-tags:mem>
@@ -100,7 +99,7 @@ end
 ---@param style string|number
 ---@return Button self
 function Button:style(style)
-  style = Resolver.buttonStyle(style)
+  style = resolver.buttonStyle(style)
   return self:_set("style", style or buttonStyle.primary)
 end
 
@@ -139,7 +138,7 @@ end
 ---@param animated? boolean
 ---@return Button self
 function Button:emoji(emoji, id, animated)
-  emoji = Resolver.emoji(emoji, id, animated)
+  emoji = resolver.emoji(emoji, id, animated)
   return self:_set("emoji", emoji)
 end
 
