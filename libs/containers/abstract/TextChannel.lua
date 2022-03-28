@@ -1,7 +1,7 @@
 local discordia = require("discordia")
 local class = discordia.class
 local classes = class.classes
-local parseMessage = require("discordia-interactions").parseMessage
+local resolver = require("discordia-interactions").resolver
 local rawComponents = require("resolver").rawComponents
 
 ---A patched version of the Discordia TextChannel class and its inherited classes;
@@ -35,7 +35,7 @@ function TextChannel:sendComponents(content, components)
     content = content,
   }
   content.components = rawComponents(components)
-  local payload, files = parseMessage(content)
+  local payload, files = resolver.message(content)
   local data, err = self.client._api:createMessage(self._id, payload, files)
 
   if data then
