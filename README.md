@@ -22,7 +22,7 @@ First make sure you `cd` into your bot directory. Then you have two options to i
 
 ## Examples
 
-See the (examples)[examples] directory.
+See the [examples](/examples) directory.
 
 - [Ping Pong](examples/pingPong.lua)
 - [Music Controls](examples/controlMusic.lua)
