@@ -1,5 +1,6 @@
 local discordia = require("discordia")
-require("discordia-interactions")
+local discordiaInteractions = require("discordia-interactions")
+local rawComponents = require("resolver").rawComponents
 
 -- [[ Define the module's classes ]]
 local module = {
@@ -25,9 +26,16 @@ do
   end
 end
 
--- [[ Path the module into Discordia as an entry point ]]
+-- [[ Patch the module into Discordia as an entry point ]]
 for k, v in pairs(module) do
   discordia[k] = v
+end
+
+discordiaInteractions.resolver.message_content_wrappers.components = function(content)
+  if content.components then
+    local components = rawComponents(content.components) or content.components
+    content.components = components
+  end
 end
 
 return module
