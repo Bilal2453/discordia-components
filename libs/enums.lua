@@ -12,6 +12,7 @@ enums.componentType = {
   actionRow   = 1,
   button      = 2,
   selectMenu  = 3,
+  textInput   = 4,
 }
 
 return enums
