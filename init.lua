@@ -2,6 +2,9 @@ local discordia = require("discordia")
 local discordiaInteractions = require("discordia-interactions")
 local rawComponents = require("resolver").rawComponents
 
+local isInstance = discordia.class.isInstance
+local resolver = discordiaInteractions.resolver
+
 -- [[ Define the module's classes ]]
 local module = {
   Component = require('containers/abstract/Component'),
@@ -31,10 +34,18 @@ for k, v in pairs(module) do
   discordia[k] = v
 end
 
-discordiaInteractions.resolver.message_content_wrappers.components = function(content)
+-- [[ Wrap resolver.message to make it understand components field ]]
+resolver.message_resolvers.components = function(content)
+  if isInstance(content, module.Components) or isInstance(content, module.Component) then
+    return {
+      components = content
+    }
+  end
+end
+
+resolver.message_wrappers.components = function(content)
   if content.components then
-    local components = rawComponents(content.components) or content.components
-    content.components = components
+    content.components = rawComponents(content.components) or content.components
   end
 end
 
