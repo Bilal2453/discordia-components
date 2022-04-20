@@ -44,9 +44,11 @@ function SelectMenu._validate(data)
   return data
 end
 
-local eligibilityError = "An Action Row that contains a Select Menu cannot contain any other component!"
-function SelectMenu._eligibilityCheck(c)
-  return not c, eligibilityError
+function SelectMenu._isEligible(row)
+  if #row > 0 then
+    return false, "An action row that contains a Select Menu cannot contain any other component!"
+  end
+  return true
 end
 
 ---<!ignore>

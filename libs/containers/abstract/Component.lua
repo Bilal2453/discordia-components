@@ -14,12 +14,21 @@ local Component, get = class("Component")
 ---@type table
 local getter = get
 
-function Component:__init(data, type)
+function Component:__init(data, component_type)
   assert(data, "argument data must be supplied") -- always required.. ?
-  data.type = type
+  data.type = component_type
 
   self._data = data
   self._actionRow = tonumber(data.actionRow)
+
+  if type(self._load) == "table" then
+    for k, v in pairs(data) do
+      local load = self._load[k]
+      if load then
+        load(self, v)
+      end
+    end
+  end
 end
 
 function Component:_set(property, value)
