@@ -58,7 +58,7 @@ function resolver.objComponents(data)
     cell = data[c]
     if type(cell) ~= "table" then return end -- definitely an invalid component
     local cell_type = type(cell.type) == "number" and cell.type or componentType[cell.type]
-    if bases[cell.type] then
+    if bases[cell_type] then
       instance:_buildComponent(bases[cell_type], cell)
     end
   end
