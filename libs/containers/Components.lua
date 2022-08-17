@@ -356,7 +356,7 @@ function getter.buttons(self)
 end
 
 function getter.selectMenus(self)
-  return ArrayIterable(self._selfMenus)
+  return ArrayIterable(self._selectMenus)
 end
 
 return Components
