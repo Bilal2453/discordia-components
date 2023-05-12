@@ -30,8 +30,11 @@ function SelectMenu:__init(data)
     data.options = {}
   end
 
+  -- Make sure type is always set correctly
+  data.type = data.type and componentType[data.type .. "Select"]
+
   -- Base constructor initializing
-  Component.__init(self, data, componentType.selectMenu)
+  Component.__init(self, data, data.type or componentType.selectMenu)
 
   -- Properly load rest of data
   self:_load(data)
@@ -44,9 +47,11 @@ function SelectMenu._validate(data)
   return data
 end
 
-local eligibilityError = "An Action Row that contains a Select Menu cannot contain any other component!"
-function SelectMenu._eligibilityCheck(c)
-  return not c, eligibilityError
+function SelectMenu._isEligible(row)
+  if #row > 0 then
+    return false, "An action row that contains a Select Menu cannot contain any other component!"
+  end
+  return true
 end
 
 ---<!ignore>
@@ -81,6 +86,7 @@ end
 ---@return SelectMenu self
 ---<!tag:mem>
 function SelectMenu:option(label, value, description, default, emoji)
+  assert(self._data.type == componentType.selectMenu, "options can only be set for SelectMenu components")
   local data = type(label) == "table" and label or {
     label = label,
     value = value,
@@ -112,6 +118,7 @@ end
 function SelectMenu:options(options)
   assert(type(options) == "table", "options must be a table value")
   assert(#options <= 25, "options can at most have 25 option only")
+  assert(self._data.type == componentType.selectMenu, "options can only be set for SelectMenu components")
   return self:_set("options", options)
 end
 
