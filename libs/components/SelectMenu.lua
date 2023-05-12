@@ -30,6 +30,9 @@ function SelectMenu:__init(data)
     data.options = {}
   end
 
+  -- Make sure type is always set correctly
+  data.type = data.type and componentType[data.type .. "Select"]
+
   -- Base constructor initializing
   Component.__init(self, data, componentType.selectMenu)
 
@@ -81,6 +84,7 @@ end
 ---@return SelectMenu self
 ---<!tag:mem>
 function SelectMenu:option(label, value, description, default, emoji)
+  assert(self._data.type == componentType.selectMenu, "options can only be set for stringSelect SelectMenu components")
   local data = type(label) == "table" and label or {
     label = label,
     value = value,
@@ -110,6 +114,7 @@ end
 ---@return SelectMenu self
 ---<!tag:mem>
 function SelectMenu:options(options)
+  assert(self._data.type == componentType.selectMenu, "options can only be set for stringSelect SelectMenu components")
   assert(type(options) == "table", "options must be a table value")
   assert(#options <= 25, "options can at most have 25 option only")
   return self:_set("options", options)
