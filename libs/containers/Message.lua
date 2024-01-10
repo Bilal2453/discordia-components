@@ -41,11 +41,16 @@ end
 ---<!tag:http>
 function Message:update(data)
   local components = data.components and rawComponents(data.components)
-	return self:_modify{
+  return self:_modify{
     components = components or {},
-		content = data.content or null,
-		embed = data.embed or null,
-	}
+    content = data.content or null,
+    embed = data.embed or null,
+    embeds = data.embeds or null,
+    allowed_mentions = {
+      parse = {'users', 'roles', 'everyone'},
+      replied_user = not not self._reply_target,
+    },
+  }
 end
 
 ---<!ignore>
