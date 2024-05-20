@@ -33,7 +33,7 @@ function Message:setComponents(components)
 end
 
 ---Sets multiple properties of the message at the same time. Identical to the one in Discordia;
----except supported fields are `content`, `embed` and `components`.
+---except supported fields are `components`, `content`, `embed` and `embeds`.
 ---
 ---Returns `true` on success, otherwise `nil, err`.
 ---@param data table
