@@ -9,10 +9,14 @@ enums.buttonStyle = {
 }
 
 enums.componentType = {
-  actionRow   = 1,
-  button      = 2,
-  selectMenu  = 3,
-  textInput   = 4,
+  actionRow         = 1,
+  button            = 2,
+  textInput         = 4,
+  selectMenu        = 3,
+  userSelect        = 5,
+  roleSelect        = 6,
+  mentionableSelect = 7,
+  channelSelect     = 8,
 }
 
 return enums
