@@ -118,7 +118,7 @@ end
 function SelectMenu:options(options)
   assert(type(options) == "table", "options must be a table value")
   assert(#options <= 25, "options can at most have 25 option only")
-  assert(self._data.type == componentType.selectMenu or not next({}), "options can only be set for stringSelect SelectMenu components")
+  assert(self._data.type == componentType.selectMenu or not next(options), "options can only be set for stringSelect SelectMenu components")
   return self:_set("options", options)
 end
 
