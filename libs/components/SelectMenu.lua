@@ -31,7 +31,9 @@ function SelectMenu:__init(data)
   end
 
   -- Make sure type is always set correctly
-  data.type = data.type and componentType[data.type .. "Select"]
+  if type(data.type) == "string" then
+    data.type = assert(componentType[data.type .. "Select"], "type can only be string, role, user, channel or mentionable")
+  end
 
   -- Base constructor initializing
   Component.__init(self, data, data.type or componentType.selectMenu)
