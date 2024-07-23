@@ -95,7 +95,7 @@ function ComponentsContainer:_insert(row, comp)
   -- make sure we don't have a registered component with that ID already
   local comp_name = comp.__name
   local cache = self._cacheMap[comp_name]
-  if findComponent(cache, comp.id) then
+  if findComponent(cache, comp.id) and not comp.url then
     errorf("Cannot have two components of the same type and ID, already have '%s' %s registered", 3, comp.id, comp_name)
   end
 
