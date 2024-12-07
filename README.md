@@ -1,24 +1,28 @@
 # Discordia-Components
 
-discordia-components is a [Discordia](https://github.com/SinisterRectus/Discordia/) 2.x extension aiming at making the use of [Message Components](https://discord.com/developers/docs/interactions/message-components) possible and user-friendly; Message components include buttons and select menus.
+![Version](https://img.shields.io/github/v/release/Bilal2453/discordia-components)
+![License](https://img.shields.io/github/license/Bilal2453/discordia-components)
+
+discordia-components is a [Discordia](https://github.com/SinisterRectus/Discordia/) 2.x extension that adds support for [Message Components](https://discord.com/developers/docs/interactions/message-components), such as buttons and select menus. This also offers a somewhat high-level interface for dealing with components, with features such as automatic rows, and client-side requirement checking.
 
 ## Documentation
 
-For docmentation please refer to [the wiki](https://github.com/Bilal2453/discordia-components/wiki).
+See [the wiki](https://github.com/Bilal2453/discordia-components/wiki) for the API documentation.
+The [discordia-interactions wiki](https://github.com/Bilal2453/discordia-interactions/wiki) is also very relevant, you should check it out.
 
-If you still can't find what you want, feel free to ask me on Discord. You will find me on any of the official communities.
+If you still can't figure it out, feel free to ask me on Discord. Join the [Discordia Server](https://discord.gg/sinisterware) and ask your question in the extensions-help channel, make sure to post any errors you are getting if any, otherwise explain what you want to achieve and why it is not working, and most importantly the code you've tried.
 
-## Installing
+## Installation
 
-First make sure you `cd` into your bot directory. Then you have two options to install the library:
+1. Install `lit` if not already installed, see [Luvit installation guide](https://luvit.io/install.html) and [Discordia installation Tutorial](https://github.com/SinisterRectus/Discordia/wiki/Installing-Discordia).
+2. Open a terminal (PowerShell or CMD on Windows) and preferably `cd` into your bot's directory.
+3. In the terminal, execute `lit install Bilal2453/discordia-components`. (Note: if you have not set up your PATH, you might have to do `./lit` instead of just `lit`)
+Once that is done, you should see Lit print the message `done: success`, indicating you are now ready to require the extension from your Discordia project.
 
-**Note: Due to unsolved bug in Lit, the package will error when installing; as of now you will have to use the Git method described below __AND NOT LIT__.**
-
-1. `git clone https://github.com/Bilal2453/discordia-components.git ./deps/discordia-components && git clone https://github.com/Bilal2453/discordia-interactions ./deps/discordia-interactions`.
-
-    Make sure that after running the above command it did not error, and that the folders `discordia-interactions` & `discordia-components` now do show up under your `deps` folder.
-
-2. ~~`lit install Bilal2453/discordia-components`. (preferred)~~
+You may also install the latest main branch by replacing the command in step 3 with:
+```sh
+git clone https://github.com/Bilal2453/discordia-components.git ./deps/discordia-components && git clone https://github.com/Bilal2453/discordia-interactions.git ./deps/discordia-interactions`
+```
 
 ## Examples
 
@@ -26,3 +30,9 @@ See the [examples](/examples) directory.
 
 - [Ping Pong](examples/pingPong.lua)
 - [Music Controls](examples/controlMusic.lua)
+- TicTacToe (To Be Done)
+
+## License
+
+This project is licensed under the Apache License 2.0, see [LICENSE] for more information.
+Make sure to include the original copyright notice when copying!
