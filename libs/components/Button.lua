@@ -30,7 +30,7 @@ function Button:__init(data, actionRow)
   -- At least one of the two fields must be always supplied
   local id, url = data.id, data.url
   if (id and url) or (not id and not url) then
-    error("either one of id/url fields must be supplied") -- TODO: Either use assert everywhere or error everywhere
+    error("either one of id/url fields must be supplied")
   end
 
   -- Auto defaulting button style when needed, otherwise resolving it
@@ -57,9 +57,13 @@ function Button._validate(data, actionRow)
   return data
 end
 
-local eligibilityError = "Cannot have a Button in an Action Row that also contains Select Menu component!"
-function Button._eligibilityCheck(c)
-  return c.type ~= componentType.selectMenu, eligibilityError
+function Button._isEligible(row)
+  for i = 1, #row do
+    if row[i].type == componentType.selectMenu then
+      return false, "Cannot have a Button in an Action Row that also contains Select Menu component!"
+    end
+  end
+  return true
 end
 
 ---<!ignore>
