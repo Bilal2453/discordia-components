@@ -1,0 +1,13 @@
+name: Build Wiki
+
+on:
+  push:
+    branches: [ $default-branch ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build Wiki
+        uses: Bilal2453/discordia-docgen-action@v0.0.1
