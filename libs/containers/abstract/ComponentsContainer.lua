@@ -17,7 +17,7 @@ local ComponentsContainer = class("ComponentsContainer")
 ---Return the component index that matches the provided id in table `tbl`.
 ---@param tbl table
 ---@param id string
----@return number
+---@return number?
 local function findComponent(tbl, id)
   for i = 1, #tbl do
     if tbl[i].id == id then return i end
@@ -203,6 +203,7 @@ function ComponentsContainer:_buildComponent(comp, data, ...)
   -- can we have the component in an action row?
   local row, err = self:_locateRow(comp, data.actionRow)
   if not row then error(err, 4) end
+  ---@cast row -true
 
   -- create and insert the component into the action row
   -- using isInstance as an optimization for passing an already constructed component
