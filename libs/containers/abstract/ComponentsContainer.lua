@@ -11,6 +11,9 @@ local utils = require("utils")
 local errorf = utils.errorf
 local remove = table.remove
 
+---A container class constructed by the library to store components data
+---for action row validation and caching purposes.
+---@class ComponentsContainer
 local ComponentsContainer = class("ComponentsContainer")
 
 ---<!ignore>
@@ -33,7 +36,7 @@ local function toCamelCase(str)
 end
 
 function ComponentsContainer:__init(data)
-  assert(data, "argument data is required when initlizing ComponentsContainer")
+  assert(data, "argument data is required when initializing ComponentsContainer")
   self._maxRows = assert(data.maxRows, "expected field data.maxRows")
   self._maxRowCells = assert(data.maxRowCells, "expected field data.maxRowCells")
   self._maxComponents = data.maxComponents or data.maxRows * data.maxRowCells
@@ -65,7 +68,7 @@ function ComponentsContainer:_buildCache()
 end
 
 ---<!ignore>
----Registers a component into an action row `row`.
+---Inserts a component into the action row `row`.
 ---@param row number
 ---@param comp Component
 function ComponentsContainer:_insert(row, comp)
@@ -86,7 +89,7 @@ function ComponentsContainer:_insert(row, comp)
     rows.rows_count = rows.rows_count + 1
   end
 
-  -- make sure we have available place in the row
+  -- make sure we have available slot in the row
   row = rows[row]
   if #row > self._maxRowCells then
     errorf("An action row cannot have more than %s component", 3, self._maxRowCells)
@@ -109,9 +112,9 @@ function ComponentsContainer:_insert(row, comp)
 end
 
 ---<!ignore>
----Unregister a component removing it from its action row and cache.
----@param comp_class Component # The component type as its class
----@param id string # The ID underwhich this component is registered
+---Remove a component from this container and action row.
+---@param comp_class Component # The class of the component you are removing
+---@param id string # The ID of the component to be removed
 ---@return ComponentsContainer self
 ---@return Component # The removed component.
 function ComponentsContainer:_remove(comp_class, id)
@@ -222,10 +225,9 @@ function ComponentsContainer:removeAllComponents()
   return self
 end
 
----Returns a table value of what the raw value Discord would accept is like based on assumptions
----of the current components.
----
----By design, user should never need to use this method.
+---Returns a table of the raw components data the Discord API expects.
+---User should never need to use this method.
+---You are likely doing something wrong if you are using it directly.
 ---@return table
 function ComponentsContainer:raw()
   local rows, data = self._rows, {}

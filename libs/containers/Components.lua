@@ -14,12 +14,13 @@ local Button = require("components/Button")
 
 ---Represents a set of Component objects, offering an interface to control, modify, and retrieve Message Components easily.
 ---This is the entry point of this library and what this whole thing is about, that is, the builder.
----@class Components
+---@class Components: ComponentsContainer
 ---@field buttons ArrayIterable A cache of all constructed Button objects in this instance.
 ---@field selectMenus ArrayIterable A cache of all constructed SelectMenu objects in this instance.
 ---@type fun(data?: Components-Resolvable): Components
+---@overload fun(data: table): Components
 ---<!tag:interface> <!method-tags:mem>
-local Components, get = class("Components", ComponentsContainer)
+local Components = class("Components", ComponentsContainer)
 
 local MAX_ROW_CELLS = 5 -- Maximum number of components per action row.
 local MAX_ROWS = 5 -- Maximum number of action rows per message.
@@ -28,7 +29,6 @@ local COMPONENTS = {Button, SelectMenu}
 ---<!ignore>
 ---Creates a new `Components` object to act as the container and the builder for all of the components.
 ---@param data table
----@return Components
 function Components:__init(data)
   ComponentsContainer.__init(self, {
     maxRows = MAX_ROWS,

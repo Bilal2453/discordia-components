@@ -19,7 +19,7 @@ local componentType = enums.componentType
 ---2. Link buttons do not fire `interactionCreate`; meaning you cannot listen to a link button to know when it is pressed.
 ---3. An Action Row can contain up to 5 buttons only, and a button can never be in the same row as a select menu.
 ---@class Button: Component
----@type fun(data: Button-Resolvable, actionRow?: number)
+---@overload fun(data: Button-Resolvable, actionRow?: number): Button
 ---<!tag:interface> <!method-tags:mem>
 local Button = class("Button", Component)
 
@@ -27,13 +27,13 @@ function Button:__init(data, actionRow)
   -- Validate input into appropriate structure
   data = self._validate(data, actionRow) or {}
 
-  -- At least one of the two fields must be always supplied
+  -- Only one of the two fields must be supplied
   local id, url = data.id, data.url
   if (id and url) or (not id and not url) then
     error("either one of id/url fields must be supplied")
   end
 
-  -- Auto defaulting button style when needed, otherwise resolving it
+  -- Resolve the button style, or pick a sane default (primary or link)
   if url and not data.style then
     data.style = buttonStyle.link
   elseif id and not data.style then
@@ -70,25 +70,18 @@ end
 ---Changes the Button instance properties according to provided data.
 ---@param data table
 function Button:_load(data)
-  -- TODO: Is there a shortcut to those repetitive checks?
-  -- make it as generalized as possible.
-  -- Load style
   if data.style then
     self:style(data.style)
   end
-  -- Load label
   if data.label then
     self:label(data.label)
   end
-  -- Load emoji
   if data.emoji then
     self:emoji(data.emoji)
   end
-  -- Load url
   if data.url then
     self:url(data.url)
   end
-  -- Load disabled
   if data.disabled then
     self:disable()
   elseif data.disabled == false then
