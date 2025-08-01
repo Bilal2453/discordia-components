@@ -91,7 +91,7 @@ function ComponentsContainer:_insert(row, comp)
 
   -- make sure we have available slot in the row
   row = rows[row]
-  if #row > self._maxRowCells then
+  if #row >= self._maxRowCells then
     errorf("An action row cannot have more than %s component", 3, self._maxRowCells)
   end
 
@@ -166,7 +166,12 @@ function ComponentsContainer:_locateRow(comp, target)
   -- if the user has specified a targeted row, check that
   if target then
     if self._rows[target] then
-      return cb(self._rows[target])
+      local success, err = cb(self._rows[target])
+      if success then
+        return target
+      else
+        return false, err
+      end
     else
       return target
     end
