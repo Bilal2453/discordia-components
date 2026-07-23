@@ -64,7 +64,7 @@ end
 ---@return Message
 ---@deprecated Use `Message:update()` instead.
 function Message:updateComponents(components, data)
-  self.client._deprecated("Message", "updateComponents", "update")
+  self.client:_deprecated("Message", "updateComponents", "update")
   data = type(data) == "table" and data or {}
   if not components then
     data.components = {}
